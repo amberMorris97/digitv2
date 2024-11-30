@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS Stream (
+    id VARCHAR(36) NOT NULL DEFAULT (UUID()),
+    name TEXT NOT NULL,
+    thumbnailUrl TEXT NULL,
+    ingressId VARCHAR(255) UNIQUE NULL,
+    serverUrl TEXT NULL,
+    streamKey TEXT NULL,
+    isLive BOOLEAN NOT NULL DEFAULT FALSE,
+    isChatEnabled BOOLEAN NOT NULL DEFAULT TRUE,
+    isChatDelayed BOOLEAN NOT NULL DEFAULT FALSE,
+    isChatFollowersOnly BOOLEAN NOT NULL DEFAULT FALSE,
+    userId VARCHAR(255) NOT NULL UNIQUE,
+    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FULLTEXT KEY name_fulltext (name),
+    KEY userId_index (userId),
+    KEY ingressId_index (ingressId),
+    CONSTRAINT fk_user FOREIGN KEY (userId) REFERENCES User(id) ON DELETE CASCADE
+);
